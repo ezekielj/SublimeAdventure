@@ -10,15 +10,21 @@ public class health : MonoBehaviour {
 	public static int startingHealth = 100;
 	public static int damage;
 	public static int currentHealth;
+	public static string showHealth;
+
+
 	// Use this for initialization
 	void Start () {
 		currentHealth = startingHealth;
-		myHealth.text = currentHealth.ToString ();
+		showHealth = "Health: " + currentHealth.ToString ();
+		myHealth.text = showHealth;
+
 	}
 	
 	// Update is called once per frame
 	void Update () {
 		currentHealth = startingHealth-damage;
-		myHealth.text = currentHealth.ToString ();
+		showHealth = "Health: " + currentHealth.ToString ();
+		myHealth.text = showHealth;
 	}
 }

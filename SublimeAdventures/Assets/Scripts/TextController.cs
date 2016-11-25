@@ -9,7 +9,7 @@ public class TextController : MonoBehaviour {
 	public Text text;
 	public enum locations {
 		mainmenu, room_0, door_locked, corridor, drawer_open, sword_ex,
-		key_pickup, room_1, sword_pickup, room_2
+		key_pickup, room_1, sword_pickup, room_2, dead, AreYouSure
 		
 	};
 	public static locations myLocation;
@@ -17,6 +17,8 @@ public class TextController : MonoBehaviour {
 	public static int SwordBattle = Attack.Next(0, 100);
 	public static int EnemyAttack = Attack.Next(0, 100);
 	public static int damage;
+	public Image logo;
+	public Image dead;
 
 	// Use this for initialization
 	void Start () {
@@ -27,6 +29,22 @@ public class TextController : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		print (myLocation);
+
+		if (Input.GetKeyDown (KeyCode.Q)) {
+			myLocation = locations.AreYouSure;
+		}
+		if (myLocation == locations.AreYouSure) {
+			Exit_Menu();
+		}
+
+		if (health.currentHealth <= 0) {
+			myLocation = locations.dead;
+		}
+		if (myLocation == locations.dead) {
+			
+			dead_menu();
+		}
+
 		if (myLocation == locations.mainmenu) {
 
 			mainmenu();
@@ -61,6 +79,12 @@ public class TextController : MonoBehaviour {
 	}
 	
 	void mainmenu(){
+		health.damage = 0;
+		health.currentHealth = 100;
+		enemyhealth.damage = 0;
+		enemyhealth.currentHealth = 100;
+		inventory.inventories.Clear();
+
 		text.text = "Hello, welcom to the worlds best adventure game.\n" +
 			"Are you ready to begin?\n\n" +
 			"Press Any Key To continue";
@@ -138,11 +162,11 @@ public class TextController : MonoBehaviour {
 	}
 
 	void corridor(){
-		text.text = "When you exit the room you look around the corridor and see ";
-
-		}
+		health.damage = 100;
+	}
 
 	void drawer_open(){
+
 		text.text = "You Open the drawer, in the drawer you find a Key\n\n " +
 			"Press K to take the key, Press ESC to close the drawer and return to the room.";
 
@@ -209,10 +233,25 @@ public class TextController : MonoBehaviour {
 			}
 			
 		}
+
 	}
 
+	void dead_menu(){
+		dead.enabled = true;
+		logo.enabled = false;
+		text.text = "You were killed. Would you like to reset?\n\n" +
+			"Space for restart or ESC to quit";
 
+		if (Input.GetKeyDown(KeyCode.Space)) {
+			myLocation = locations.mainmenu;
+		}
 
-
-
+		if (Input.GetKeyDown (KeyCode.Escape)) {
+			Application.Quit();
+		}
+		
+	}
+	void Exit_Menu(){
+		Application.Quit();
+	}
 }
