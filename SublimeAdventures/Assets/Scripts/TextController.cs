@@ -16,6 +16,7 @@ public class TextController : MonoBehaviour {
 	public static System.Random Attack = new System.Random();
 	public static int SwordBattle = Attack.Next(0, 100);
 	public static int EnemyAttack = Attack.Next(0, 100);
+	public static int damage;
 
 	// Use this for initialization
 	void Start () {
@@ -68,8 +69,6 @@ public class TextController : MonoBehaviour {
 		if (Input.anyKeyDown) {
 			myLocation = locations.room_0;
 		}
-
-		print(SwordBattle);
 
 	}
 
@@ -140,6 +139,7 @@ public class TextController : MonoBehaviour {
 
 	void corridor(){
 		text.text = "When you exit the room you look around the corridor and see ";
+
 		}
 
 	void drawer_open(){
