@@ -9,7 +9,9 @@ public class TextController : MonoBehaviour {
 	public Text text;
 	public enum locations {
 		mainmenu, entry_room_0, door_locked, corridor, drawer_open, sword_ex,
-		key_pickup, entry_room_1, sword_pickup, entry_room_2, dead, corridor_Window_1, corridor_room_0, corridor_door_ex
+		key_pickup, entry_room_1, sword_pickup, entry_room_2, dead, 
+		corridor_Window_1, corridor_room_0, corridor_door_ex,
+		begin_battle
 		
 	};
 	public static locations myLocation;
@@ -39,6 +41,11 @@ public class TextController : MonoBehaviour {
 			myLocation = locations.dead;
 		}
 
+		if (myLocation == locations.begin_battle) {
+			
+			begin_battle();
+		}
+
 		if (myLocation == locations.corridor_Window_1) {
 			
 			corridor_window_ex();
@@ -57,9 +64,12 @@ public class TextController : MonoBehaviour {
 
 			mainmenu();
 		}
+		if (myLocation == locations.corridor_room_0) {
+			corridor_room_0();
+		}
 		if (myLocation == locations.entry_room_0) {
 			entry_room_0();
-		}
+		}	
 		if (myLocation == locations.entry_room_1) {
 			entry_room_1();
 		}
@@ -263,11 +273,26 @@ public class TextController : MonoBehaviour {
 		if (Input.GetKeyDown(KeyCode.Return)) {
 			myLocation = locations.corridor_room_0;
 		}
+
+		if (Input.GetKeyDown(KeyCode.Escape)) {
+			myLocation = locations.corridor;
+		}
 	}
 
 	void corridor_window_ex(){
 		
 		text.text = "";
+	}
+
+	void corridor_room_0(){
+		
+		text.text = "When you enter the room you see a giant spider.\n\n " +
+
+			"Enter to Fight, or Escape to run Away";
+
+		if (Input.GetKeyDown(KeyCode.Return)) {
+			myLocation = locations.begin_battle;
+		}
 	}
 
 	void dead_menu(){
@@ -284,5 +309,23 @@ public class TextController : MonoBehaviour {
 			Application.Quit();
 		}
 		
+	}
+
+	void begin_battle(){
+		if (enemyhealth.currentHealth <= 0) {
+			end_battle();
+		}
+		if (inventory.inventories.Contains ("Sword")) {
+			enemyhealth.damage = SwordBattle;
+		} else {
+			enemyhealth.damage = HandAttack;
+		}
+
+	}
+
+	void end_battle(){
+
+		enemyhealth.damage = 0;
+		enemyhealth.currentHealth = 100;
 	}
 }
