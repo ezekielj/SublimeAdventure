@@ -25,7 +25,7 @@ public class inventory : MonoBehaviour {
 			}
 			String_Builder ();
 		}
-		if (TextController.myLocation == TextController.locations.room_0) {
+		if (TextController.myLocation == TextController.locations.entry_room_0) {
 			
 			String_Builder();
 			

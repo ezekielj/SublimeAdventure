@@ -8,12 +8,13 @@ public class TextController : MonoBehaviour {
 
 	public Text text;
 	public enum locations {
-		mainmenu, room_0, door_locked, corridor, drawer_open, sword_ex,
-		key_pickup, room_1, sword_pickup, room_2, dead, AreYouSure
+		mainmenu, entry_room_0, door_locked, corridor, drawer_open, sword_ex,
+		key_pickup, entry_room_1, sword_pickup, entry_room_2, dead, corridor_Window_1, corridor_room_0, corridor_door_ex
 		
 	};
 	public static locations myLocation;
 	public static System.Random Attack = new System.Random();
+	public static int HandAttack = Attack.Next(0, 30);
 	public static int SwordBattle = Attack.Next(0, 100);
 	public static int EnemyAttack = Attack.Next(0, 100);
 	public static int damage;
@@ -31,15 +32,22 @@ public class TextController : MonoBehaviour {
 		print (myLocation);
 
 		if (Input.GetKeyDown (KeyCode.Q)) {
-			myLocation = locations.AreYouSure;
-		}
-		if (myLocation == locations.AreYouSure) {
-			Exit_Menu();
+			Application.Quit ();
 		}
 
 		if (health.currentHealth <= 0) {
 			myLocation = locations.dead;
 		}
+
+		if (myLocation == locations.corridor_Window_1) {
+			
+			corridor_window_ex();
+		}
+		if (myLocation == locations.corridor_door_ex) {
+			
+			corridor_door_ex();
+		}
+
 		if (myLocation == locations.dead) {
 			
 			dead_menu();
@@ -49,11 +57,11 @@ public class TextController : MonoBehaviour {
 
 			mainmenu();
 		}
-		if (myLocation == locations.room_0) {
-			room_0();
+		if (myLocation == locations.entry_room_0) {
+			entry_room_0();
 		}
-		if (myLocation == locations.room_1) {
-			room_1();
+		if (myLocation == locations.entry_room_1) {
+			entry_room_1();
 		}
 		if (myLocation == locations.door_locked) {
 			door_locked();
@@ -73,8 +81,8 @@ public class TextController : MonoBehaviour {
 		if (myLocation == locations.key_pickup) {
 			key_pickup();
 		}
-		if (myLocation == locations.room_2) {
-			room_2();
+		if (myLocation == locations.entry_room_2) {
+			entry_room_2();
 		}
 	}
 	
@@ -91,12 +99,12 @@ public class TextController : MonoBehaviour {
 
 
 		if (Input.anyKeyDown) {
-			myLocation = locations.room_0;
+			myLocation = locations.entry_room_0;
 		}
 
 	}
 
-	void room_0(){
+	void entry_room_0(){
 		text.text = "You Awaken in a strange room, looking around you see a few things... " +
 			"Leaning against a wall is a sword, next to the bed is a drawer, " +
 			"and there is a door directly in front of you.\n\n\n " +
@@ -123,7 +131,7 @@ public class TextController : MonoBehaviour {
 		}
 	}
 
-	void room_1(){
+	void entry_room_1(){
 		text.text = "Looking around you see a few things... " +
 			"Leaning against a wall is a sword, next to the bed is a drawer, " +
 				"and there is a door directly in front of you.\n\n\n " +
@@ -156,13 +164,23 @@ public class TextController : MonoBehaviour {
 
 		if (Input.GetKeyDown (KeyCode.Escape)) {
 			
-			myLocation = locations.room_0;
+			myLocation = locations.entry_room_0;
 			
 		}
 	}
 
 	void corridor(){
-		health.damage = 100;
+		text.text = "When you exit the room you find yourself in a dark corridor, there is not much to see here.\n " +
+			"on one wall there is a door, on the other side a Window, and straight in front of you the Ccrridor just continues into blackness." +
+			
+			"\nWhere would you like to go?\n\nPress W to examine the Window, Enter to continue down the corridor, or D to examine the door.";
+
+		if (Input.GetKeyDown (KeyCode.W)) {
+			myLocation = locations.corridor_Window_1;
+		}
+		if (Input.GetKeyDown(KeyCode.D)) {
+			myLocation = locations.corridor_door_ex;
+		}
 	}
 
 	void drawer_open(){
@@ -174,7 +192,7 @@ public class TextController : MonoBehaviour {
 			myLocation = locations.key_pickup;
 		}
 		if (Input.GetKeyDown(KeyCode.Escape)) {
-			myLocation = locations.room_0;
+			myLocation = locations.entry_room_0;
 		}
 	}
 
@@ -189,7 +207,7 @@ public class TextController : MonoBehaviour {
 		}
 
 		if (Input.GetKeyDown(KeyCode.Escape)) {
-			myLocation = locations.room_1;
+			myLocation = locations.entry_room_1;
 		}
 	}
 
@@ -198,7 +216,7 @@ public class TextController : MonoBehaviour {
 
 			"Press ESC to return to the Room";
 		if (Input.GetKeyDown(KeyCode.Escape)) {
-			myLocation = locations.room_2;
+			myLocation = locations.entry_room_2;
 		}
 	
 	}
@@ -208,11 +226,11 @@ public class TextController : MonoBehaviour {
 		text.text = "You picked up the Key... Wonder what this goes to. \n\n " +
 			"Press Enter to continue";
 		if (Input.GetKeyDown(KeyCode.Return)) {
-			myLocation = locations.room_1;
+			myLocation = locations.entry_room_1;
 		}
 	}
 
-	void room_2(){
+	void entry_room_2(){
 		text.text = "Looking around you see a few things... " +
 			"Next to the bed is a drawer, " +
 				"and there is a door directly in front of you.\n\n\n " +
@@ -236,6 +254,22 @@ public class TextController : MonoBehaviour {
 
 	}
 
+	void corridor_door_ex(){
+
+		text.text = "The door is partway open, you can see a sliver of torch light coming from within, you listen for a second... " +
+			"there are some strange noises. you are unsure of what they are\n\n" +
+			
+			"Enter to Enter the room, ESC to return to the corridor";
+		if (Input.GetKeyDown(KeyCode.Return)) {
+			myLocation = locations.corridor_room_0;
+		}
+	}
+
+	void corridor_window_ex(){
+		
+		text.text = "";
+	}
+
 	void dead_menu(){
 		dead.enabled = true;
 		logo.enabled = false;
@@ -250,8 +284,5 @@ public class TextController : MonoBehaviour {
 			Application.Quit();
 		}
 		
-	}
-	void Exit_Menu(){
-		Application.Quit();
 	}
 }
