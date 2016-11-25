@@ -48,6 +48,7 @@
   <ItemGroup>
      <Compile Include="Assets\FindMissingScripts.cs" />
      <Compile Include="Assets\Scripts\TextController.cs" />
+     <Compile Include="Assets\Scripts\health.cs" />
      <Compile Include="Assets\Scripts\inventory.cs" />
  <Reference Include="UnityEngine.UI">
  <HintPath>C:/Program Files (x86)/Unity 4.6/Editor/Data/UnityExtensions/Unity/GUISystem/4.6.9/Standalone/UnityEngine.UI.dll</HintPath>
