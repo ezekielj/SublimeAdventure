@@ -30,6 +30,14 @@ public class inventory : MonoBehaviour {
 			String_Builder();
 			
 		}
+		if (TextController.myLocation == TextController.locations.sword_pickup) {
+
+			if (!inventories.Contains("Sword")) {
+				inventories.Add ("Sword");
+			}
+			String_Builder();
+			
+		}
 	}
 	
 	void String_Builder(){

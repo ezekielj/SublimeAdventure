@@ -9,7 +9,7 @@ public class TextController : MonoBehaviour {
 	public Text text;
 	public enum locations {
 		mainmenu, room_0, door_locked, corridor, drawer_open, sword_ex,
-		key_pickup, room_1
+		key_pickup, room_1, sword_pickup, room_2
 		
 	};
 	public static locations myLocation;
@@ -46,8 +46,14 @@ public class TextController : MonoBehaviour {
 		if (myLocation == locations.sword_ex) {
 			sword_ex();
 		}
+		if (myLocation == locations.sword_pickup) {
+			sword_pickup();
+		}
 		if (myLocation == locations.key_pickup) {
 			key_pickup();
+		}
+		if (myLocation == locations.room_2) {
+			room_2();
 		}
 	}
 	
@@ -76,7 +82,7 @@ public class TextController : MonoBehaviour {
 		}
 
 		if (Input.GetKeyDown (KeyCode.S)) {
-
+			myLocation = locations.sword_ex;
 		}
 
 		if (Input.GetKeyDown (KeyCode.Return)) {
@@ -93,7 +99,7 @@ public class TextController : MonoBehaviour {
 	}
 
 	void room_1(){
-		text.text = "Ylooking around you see a few things... " +
+		text.text = "Looking around you see a few things... " +
 			"Leaning against a wall is a sword, next to the bed is a drawer, " +
 				"and there is a door directly in front of you.\n\n\n " +
 				"Press S to examine the sword, D to look in the drawer, and Enter to Open the door";
@@ -147,8 +153,28 @@ public class TextController : MonoBehaviour {
 	}
 
 	void sword_ex(){
-		text.text = "You take a look at the sword, ";
+		text.text = "You take a look at the sword, \n\n " +
 
+			"It has a jewel in the Pommel, made of a tough iron, looks to be worth some money. \n " +
+			"But it could also be a great weapon\n Press Enter to take the sword, Press ESC to leave the sword there.";
+
+		if (Input.GetKeyDown(KeyCode.Return)) {
+			myLocation = locations.sword_pickup;
+		}
+
+		if (Input.GetKeyDown(KeyCode.Escape)) {
+			myLocation = locations.room_1;
+		}
+	}
+
+	void sword_pickup(){
+		text.text = "YOu take the sword, it is heavy in your hands, this will be good to hold on to.\n\n" +
+
+			"Press ESC to return to the Room";
+		if (Input.GetKeyDown(KeyCode.Escape)) {
+			myLocation = locations.room_2;
+		}
+	
 	}
 
 	void key_pickup(){
@@ -160,4 +186,26 @@ public class TextController : MonoBehaviour {
 		}
 	}
 
+	void room_2(){
+		text.text = "Looking around you see a few things... " +
+			"Next to the bed is a drawer, " +
+				"and there is a door directly in front of you.\n\n\n " +
+				"Press SD to look in the drawer, and Enter to Open the door";
+		
+		if (Input.GetKeyDown (KeyCode.D)) {
+			myLocation = locations.drawer_open;
+		}
+		
+		if (Input.GetKeyDown (KeyCode.Return)) {
+			
+			
+			if (!inventory.inventories.Contains("Key"))
+			{
+				myLocation = locations.door_locked;
+			} else{
+				myLocation = locations.corridor;
+			}
+			
+		}
+	}
 }
