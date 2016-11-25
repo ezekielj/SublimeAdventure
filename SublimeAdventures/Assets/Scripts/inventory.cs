@@ -13,15 +13,22 @@ public class inventory : MonoBehaviour {
 	void Start () {
 		//GameObject theLocation = GameObject.Find("locations");
 		//TextController Location1 = theLocation.GetComponent<TextController>();
-		
+		String_Builder ();
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		if (TextController.myLocation == TextController.locations.room_0) {
-		
-			String_Builder();
+		if (TextController.myLocation == TextController.locations.key_pickup) {
 
+			if (!inventories.Contains("Key")) {
+				inventories.Add ("Key");
+			}
+			String_Builder ();
+		}
+		if (TextController.myLocation == TextController.locations.room_0) {
+			
+			String_Builder();
+			
 		}
 	}
 	
