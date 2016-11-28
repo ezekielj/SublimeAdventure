@@ -100,6 +100,8 @@ public class TextController : MonoBehaviour {
 	}
 	
 	void mainmenu(){
+		logo.enabled = true;
+		dead.enabled = false;
 		health.damage = 0;
 		health.currentHealth = 100;
 		enemyhealth.damage = 0;
@@ -108,10 +110,10 @@ public class TextController : MonoBehaviour {
 
 		text.text = "Hello, welcom to the worlds best adventure game.\n" +
 			"Are you ready to begin?\n\n" +
-			"Press Any Key To continue";
+			"Press Space To continue";
 
 
-		if (Input.anyKeyDown) {
+		if (Input.GetKeyDown (KeyCode.Space)) {
 			myLocation = locations.entry_room_0;
 		}
 
@@ -322,7 +324,7 @@ public class TextController : MonoBehaviour {
 		if (Input.GetKeyDown (KeyCode.Return)) {
 				print(enemyhealth.currentHealth);
 
-			while (enemyhealth.currentHealth > 0) {
+			while (enemyhealth.currentHealth > 0 || health.currentHealth > 0) {
 				enemyhealth.damage += Attack.Next(0, 100);
 					print (enemyhealth.damage);
 				enemyhealth.currentHealth = enemyhealth.startingHealth-enemyhealth.damage;
