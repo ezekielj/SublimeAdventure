@@ -10,8 +10,8 @@ public class TextController : MonoBehaviour {
 	public enum locations {
 		mainmenu, entry_room_0, door_locked, corridor, drawer_open, sword_ex,
 		key_pickup, entry_room_1, sword_pickup, entry_room_2, dead, 
-		corridor_Window_1, corridor_room_0, corridor_door_ex,
-		begin_battle
+		corridor_Window_1, corridor_room_0, corridor_door_ex,end_battle,
+		begin_battle,
 		
 	};
 	public static locations myLocation;
@@ -19,7 +19,6 @@ public class TextController : MonoBehaviour {
 	public static int HandAttack = Attack.Next(0, 30);
 	public static int SwordBattle = Attack.Next(0, 100);
 	public static int EnemyAttack = Attack.Next(0, 100);
-	public static int damage;
 	public Image logo;
 	public Image dead;
 
@@ -44,6 +43,10 @@ public class TextController : MonoBehaviour {
 		if (myLocation == locations.begin_battle) {
 			
 			begin_battle();
+		}
+
+		if (myLocation == locations.end_battle) {
+			end_battle();
 		}
 
 		if (myLocation == locations.corridor_Window_1) {
@@ -312,13 +315,28 @@ public class TextController : MonoBehaviour {
 	}
 
 	void begin_battle(){
-		if (enemyhealth.currentHealth <= 0) {
-			end_battle();
-		}
-		if (inventory.inventories.Contains ("Sword")) {
-			enemyhealth.damage = SwordBattle;
-		} else {
-			enemyhealth.damage = HandAttack;
+		text.text = "You see a giant spider,\n\n" +
+			"Press Enter to attack," +
+			"press Esc to run away.";
+
+		if (Input.GetKeyDown (KeyCode.Return)) {
+				print(enemyhealth.currentHealth);
+
+			while (enemyhealth.currentHealth > 0) {
+				enemyhealth.damage += Attack.Next(0, 100);
+					print (enemyhealth.damage);
+				enemyhealth.currentHealth = enemyhealth.startingHealth-enemyhealth.damage;
+				print("You did " + enemyhealth.damage + " damage to the spider");
+				
+				health.damage += Attack.Next(0, 100);
+				print (health.damage);
+				health.currentHealth = health.startingHealth-health.damage;
+				print ( "The Spider did " + health.damage + " damage to you");
+
+
+			}
+
+
 		}
 
 	}
