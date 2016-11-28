@@ -324,13 +324,21 @@ public class TextController : MonoBehaviour {
 		if (Input.GetKeyDown (KeyCode.Return)) {
 				print(enemyhealth.currentHealth);
 
-			while (enemyhealth.currentHealth > 0 || health.currentHealth > 0) {
-				enemyhealth.damage += Attack.Next(0, 100);
+			while (enemyhealth.currentHealth > 0 && health.currentHealth > 0) {
+			
+				if (inventory.inventories.Contains("Sword")) {
+					enemyhealth.damage += Attack.Next(0, 30);
 					print (enemyhealth.damage);
-				enemyhealth.currentHealth = enemyhealth.startingHealth-enemyhealth.damage;
+					enemyhealth.currentHealth = enemyhealth.startingHealth-enemyhealth.damage;
+				}else{
+					enemyhealth.damage += Attack.Next(0, 10);
+					print (enemyhealth.damage);
+					enemyhealth.currentHealth = enemyhealth.startingHealth-enemyhealth.damage;
+				}
+				
 				print("You did " + enemyhealth.damage + " damage to the spider");
 				
-				health.damage += Attack.Next(0, 100);
+				health.damage += Attack.Next(0, 5);
 				print (health.damage);
 				health.currentHealth = health.startingHealth-health.damage;
 				print ( "The Spider did " + health.damage + " damage to you");
